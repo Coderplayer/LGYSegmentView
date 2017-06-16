@@ -48,26 +48,26 @@
     vc3.title = @"第三个控";
     [self addChildViewController:vc3];
     
-//
-//    ViewController1 *vc4 = [[ViewController1 alloc] init];
-//    vc4.title = @"第4个控";
-//    [self addChildViewController:vc4];
-//    
-//    ViewController2 *vc5 = [[ViewController2 alloc] init];
-//    vc5.title = @"第5";
-//    [self addChildViewController:vc5];
-//    
-//    ViewController3 *vc6 = [[ViewController3 alloc] init];
-//    vc6.title = @"第6个控";
-//    [self addChildViewController:vc6];
-//    
-//    ViewController1 *vc7 = [[ViewController1 alloc] init];
-//    vc7.title = @"第7个控";
-//    [self addChildViewController:vc7];
-//    
-//    ViewController2 *vc8 = [[ViewController2 alloc] init];
-//    vc8.title = @"第8";
-//    [self addChildViewController:vc8];
+
+    ViewController1 *vc4 = [[ViewController1 alloc] init];
+    vc4.title = @"第4个控";
+    [self addChildViewController:vc4];
+    
+    ViewController2 *vc5 = [[ViewController2 alloc] init];
+    vc5.title = @"第5";
+    [self addChildViewController:vc5];
+    
+    ViewController3 *vc6 = [[ViewController3 alloc] init];
+    vc6.title = @"第6个控";
+    [self addChildViewController:vc6];
+    
+    ViewController1 *vc7 = [[ViewController1 alloc] init];
+    vc7.title = @"第7个控";
+    [self addChildViewController:vc7];
+    
+    ViewController2 *vc8 = [[ViewController2 alloc] init];
+    vc8.title = @"第8";
+    [self addChildViewController:vc8];
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -130,12 +130,12 @@
 - (LGYSegmentView *)segmentView
 {
     if (!_segmentView) {
-        NSArray *titles = @[@"第一个控",@"第二",@"第三个控"];//,@"第4个控",@"第5",@"第6个控",@"第7个控",@"第8"];
+        NSArray *titles = @[@"第一个控",@"第二",@"第三个控",@"第4个控",@"第5",@"第6个控",@"第7个控",@"第8"];
         LGYSegmentView *segmentView = [LGYSegmentView segmentViewWithTitles:titles withDelegate:self];
-        segmentView.frame = CGRectMake(0, 0, 240, 44);
+        segmentView.frame = CGRectMake(0, 0, kSCREEN_WIDTH, 44);
         segmentView.titleSelectedEnlageScale = 0.2;
         segmentView.segmentTitleFont = [UIFont systemFontOfSize:20];
-        segmentView.indicatorVHeight = 2;
+        segmentView.indicatorVHeight = 4;
         segmentView.segmentSelectedColor = [UIColor colorWithRed:244/255.0 green:36/255.0 blue:64/255.0 alpha:1.0];
         segmentView.segmentNormalColor = [UIColor colorWithRed:7/255.0 green:7/255.0 blue:7/255.0 alpha:1.0];
 //        segmentView.indicatorVColor = [UIColor greenColor];
