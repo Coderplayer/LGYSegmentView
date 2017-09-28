@@ -16,7 +16,7 @@
 #define kSCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define kSCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 @interface ViewController ()<UIScrollViewDelegate,LGYSegmentViewDelegate>
-@property (nonatomic, strong) UIScrollView *contentScrollView;
+@property (nonatomic, strong) UIScrollView *subVCViewContinerScroller;
 @property (nonatomic, weak) LGYSegmentView * segmentView;
 @end
 
@@ -29,7 +29,6 @@
     [self setUpSubVCs];
     
     [self setUpSubViews];
-    [self scrollViewDidEndScrollingAnimation:self.contentScrollView];
 }
 
 
@@ -73,7 +72,7 @@
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
     
-    if (scrollView != self.contentScrollView) {
+    if (scrollView != self.subVCViewContinerScroller) {
         return;
     }
     CGFloat width = scrollView.frame.size.width;
@@ -93,7 +92,7 @@
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    if (scrollView != self.contentScrollView) {
+    if (scrollView != self.subVCViewContinerScroller) {
         return;
     }
     [self scrollViewDidEndScrollingAnimation:scrollView];
@@ -108,24 +107,28 @@
     [self.segmentView fatherVCContentscrollViewDidScrollScale:scale];
 }
 
-
-
 #pragma mark - setUpSubViews
 - (void)setUpSubViews
 {
-    UIScrollView *contentScrollView = [[UIScrollView alloc] init];
-    contentScrollView.backgroundColor = [UIColor colorWithRed:190/255.0 green:200/255.0 blue:230/255.0 alpha:1.0];
-    contentScrollView.delegate = self;
-    contentScrollView.showsVerticalScrollIndicator = NO;
-    contentScrollView.showsHorizontalScrollIndicator = NO;
-    contentScrollView.pagingEnabled = YES;
-    contentScrollView.frame = CGRectMake(0, 64, kSCREEN_WIDTH, kSCREEN_HEIGHT- 64);
-    [self.view addSubview:contentScrollView];
-    _contentScrollView = contentScrollView;
-    
     NSInteger subVCCount = self.childViewControllers.count;
-    self.contentScrollView.contentSize = CGSizeMake(subVCCount * kSCREEN_WIDTH, 0);
+    self.subVCViewContinerScroller.contentSize = CGSizeMake(subVCCount * kSCREEN_WIDTH, 0);
     [self segmentView];
+}
+
+- (UIScrollView *)subVCViewContinerScroller
+{
+    if (!_subVCViewContinerScroller) {
+        UIScrollView *subVCViewContinerScroller = [[UIScrollView alloc] init];
+        subVCViewContinerScroller.backgroundColor = [UIColor colorWithRed:190/255.0 green:200/255.0 blue:230/255.0 alpha:1.0];
+        subVCViewContinerScroller.delegate = self;
+        subVCViewContinerScroller.showsVerticalScrollIndicator = NO;
+        subVCViewContinerScroller.showsHorizontalScrollIndicator = NO;
+        subVCViewContinerScroller.pagingEnabled = YES;
+        subVCViewContinerScroller.frame = CGRectMake(0, 64, kSCREEN_WIDTH, kSCREEN_HEIGHT- 64);
+        [self.view addSubview:subVCViewContinerScroller];
+        _subVCViewContinerScroller = subVCViewContinerScroller;
+    }
+    return _subVCViewContinerScroller;
 }
 - (LGYSegmentView *)segmentView
 {
@@ -148,15 +151,15 @@
 - (void)segmentView:(LGYSegmentView *)segementView didSelectedTitleIndex:(NSInteger)index
 {
     UIViewController *baseVC = self.childViewControllers[index];
-    CGPoint offset = self.contentScrollView.contentOffset;
-    offset.x = index * self.contentScrollView.frame.size.width;
+    CGPoint offset = self.subVCViewContinerScroller.contentOffset;
+    offset.x = index * self.subVCViewContinerScroller.frame.size.width;
     
-    CGFloat width = self.contentScrollView.frame.size.width;
-    CGFloat height = self.contentScrollView.frame.size.height;
+    CGFloat width = self.subVCViewContinerScroller.frame.size.width;
+    CGFloat height = self.subVCViewContinerScroller.frame.size.height;
     
-    [self.contentScrollView setContentOffset:offset animated:NO];
+    [self.subVCViewContinerScroller setContentOffset:offset animated:NO];
     baseVC.view.frame = CGRectMake(offset.x, 0, width, height);
-    [self.contentScrollView addSubview:baseVC.view];
+    [self.subVCViewContinerScroller addSubview:baseVC.view];
 }
 
 @end

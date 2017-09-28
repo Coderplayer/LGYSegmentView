@@ -7,6 +7,7 @@
 //
 
 #import "LGYLabel.h"
+#define  TitleDefaultFont 18
 const CGFloat LGYRed = 0;
 const CGFloat LGYGreen = 0;
 const CGFloat LGYBlue = 0;
@@ -22,15 +23,17 @@ const CGFloat LGYAlpha = 1.0;
 @end
 
 @implementation LGYLabel
+{
+    CGFloat _titleWidth;
+    CGFloat _enlageTitleWidth;
+    CGFloat _titleOriX;
+}
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-//        self.font = [UIFont systemFontOfSize:18];
         self.textColor = [UIColor blackColor];
         self.textAlignment = NSTextAlignmentCenter;
-//        self.backgroundColor = [UIColor greenColor];
-//        self.layer.cornerRadius = 10;
-//        self.layer.masksToBounds = YES;
+        self.font = [UIFont systemFontOfSize:TitleDefaultFont];
         self.userInteractionEnabled = YES;
     }
     return self;
@@ -54,8 +57,8 @@ const CGFloat LGYAlpha = 1.0;
     _selectGreen = components[1];
     _selectBlue = components[2];
 }
-- (void)setScale:(CGFloat)scale
-{
+
+- (void)setScale:(CGFloat)scale {
     _scale = scale;    
     //      R G B
     // 默认：0.4 0.6 0.7
@@ -70,4 +73,49 @@ const CGFloat LGYAlpha = 1.0;
     CGFloat transformScale = 1 + scale * self.enlageScale; // [1, 1.2]
     self.transform = CGAffineTransformMakeScale(transformScale, transformScale);
 }
+
+- (CGFloat)titleWidth {
+    if (!_titleWidth) {
+        CGSize size = CGSizeMake(CGFLOAT_MAX, 44);
+        _titleWidth = [self.text boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : self.font} context:nil].size.width;
+    }
+    return _titleWidth;
+}
+
+- (CGFloat)enlageTitleWidth {
+    if (!_enlageTitleWidth) {
+        _enlageTitleWidth = self.titleWidth * (1 + _enlageScale);
+    }
+    return _enlageTitleWidth;
+}
+
+- (CGFloat)titleOriX {
+    if (!_titleOriX) {
+        _titleOriX = self.center.x - self.enlageTitleWidth * 0.5;
+    }
+    return _titleOriX;
+}
+
+- (void)setText:(NSString *)text {
+    [super setText:text];
+    [self clearWidths];
+}
+
+- (void)setEnlageScale:(CGFloat)enlageScale {
+    _enlageScale = enlageScale;
+    [self clearWidths];
+}
+
+- (void)setFont:(UIFont *)font {
+    [super setFont:font];
+    [self clearWidths];
+}
+
+- (void)clearWidths {
+    _titleWidth = 0.0;
+    _enlageTitleWidth = 0.0;
+    _titleOriX = 0.0;
+}
+
+
 @end

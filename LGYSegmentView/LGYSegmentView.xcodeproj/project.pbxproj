@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A41973A81F7D20FA00850CCE /* LGYLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A41973A71F7D20D000850CCE /* LGYLabel.m */; };
+		A41973A91F7D20FA00850CCE /* LGYSegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = A41973A41F7D20CF00850CCE /* LGYSegmentView.m */; };
 		A42DFBFF1EEFE633000BA8B4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A42DFBFE1EEFE633000BA8B4 /* main.m */; };
 		A42DFC021EEFE633000BA8B4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A42DFC011EEFE633000BA8B4 /* AppDelegate.m */; };
 		A42DFC051EEFE633000BA8B4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A42DFC041EEFE633000BA8B4 /* ViewController.m */; };
@@ -42,8 +44,6 @@
 		A455A6341EF0E5DA000E344D /* NSObject+MJProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = A455A6271EF0E5DA000E344D /* NSObject+MJProperty.m */; };
 		A455A6351EF0E5DA000E344D /* NSString+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = A455A6291EF0E5DA000E344D /* NSString+MJExtension.m */; };
 		A455A6361EF0E5DA000E344D /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = A455A62A1EF0E5DA000E344D /* README.md */; };
-		A455A6391EF110BE000E344D /* LGYLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A455A6381EF110BE000E344D /* LGYLabel.m */; };
-		A486E7B81EF25F6E00F8FA4C /* LGYSegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = A486E7B71EF25F6E00F8FA4C /* LGYSegmentView.m */; };
 		A486E7BB1EF266AF00F8FA4C /* LGYSegmentView1.m in Sources */ = {isa = PBXBuildFile; fileRef = A486E7BA1EF266AF00F8FA4C /* LGYSegmentView1.m */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +65,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A41973A41F7D20CF00850CCE /* LGYSegmentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LGYSegmentView.m; sourceTree = "<group>"; };
+		A41973A51F7D20CF00850CCE /* LGYLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LGYLabel.h; sourceTree = "<group>"; };
+		A41973A61F7D20CF00850CCE /* LGYSegmentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LGYSegmentView.h; sourceTree = "<group>"; };
+		A41973A71F7D20D000850CCE /* LGYLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LGYLabel.m; sourceTree = "<group>"; };
 		A42DFBFA1EEFE633000BA8B4 /* LGYSegmentView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LGYSegmentView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A42DFBFE1EEFE633000BA8B4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A42DFC001EEFE633000BA8B4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -137,10 +141,6 @@
 		A455A6281EF0E5DA000E344D /* NSString+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MJExtension.h"; sourceTree = "<group>"; };
 		A455A6291EF0E5DA000E344D /* NSString+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MJExtension.m"; sourceTree = "<group>"; };
 		A455A62A1EF0E5DA000E344D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		A455A6371EF110BE000E344D /* LGYLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LGYLabel.h; sourceTree = "<group>"; };
-		A455A6381EF110BE000E344D /* LGYLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LGYLabel.m; sourceTree = "<group>"; };
-		A486E7B61EF25F6E00F8FA4C /* LGYSegmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LGYSegmentView.h; sourceTree = "<group>"; };
-		A486E7B71EF25F6E00F8FA4C /* LGYSegmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LGYSegmentView.m; sourceTree = "<group>"; };
 		A486E7B91EF266AF00F8FA4C /* LGYSegmentView1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LGYSegmentView1.h; path = Masonry/LGYSegmentView1.h; sourceTree = "<group>"; };
 		A486E7BA1EF266AF00F8FA4C /* LGYSegmentView1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LGYSegmentView1.m; path = Masonry/LGYSegmentView1.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -288,10 +288,10 @@
 		A455A5EB1EF0D0D2000E344D /* Segment */ = {
 			isa = PBXGroup;
 			children = (
-				A486E7B61EF25F6E00F8FA4C /* LGYSegmentView.h */,
-				A486E7B71EF25F6E00F8FA4C /* LGYSegmentView.m */,
-				A455A6371EF110BE000E344D /* LGYLabel.h */,
-				A455A6381EF110BE000E344D /* LGYLabel.m */,
+				A41973A51F7D20CF00850CCE /* LGYLabel.h */,
+				A41973A71F7D20D000850CCE /* LGYLabel.m */,
+				A41973A61F7D20CF00850CCE /* LGYSegmentView.h */,
+				A41973A41F7D20CF00850CCE /* LGYSegmentView.m */,
 			);
 			path = Segment;
 			sourceTree = "<group>";
@@ -472,6 +472,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A41973A81F7D20FA00850CCE /* LGYLabel.m in Sources */,
+				A41973A91F7D20FA00850CCE /* LGYSegmentView.m in Sources */,
 				A42DFC551EEFE971000BA8B4 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				A455A62F1EF0E5DA000E344D /* MJPropertyKey.m in Sources */,
 				A455A6331EF0E5DA000E344D /* NSObject+MJKeyValue.m in Sources */,
@@ -486,14 +488,12 @@
 				A42DFBFF1EEFE633000BA8B4 /* main.m in Sources */,
 				A455A6361EF0E5DA000E344D /* README.md in Sources */,
 				A455A62C1EF0E5DA000E344D /* MJExtensionConst.m in Sources */,
-				A486E7B81EF25F6E00F8FA4C /* LGYSegmentView.m in Sources */,
 				A42DFC571EEFE971000BA8B4 /* ViewController+MASAdditions.m in Sources */,
 				A455A6321EF0E5DA000E344D /* NSObject+MJCoding.m in Sources */,
 				A42DFC641EEFEA29000BA8B4 /* ViewController3.m in Sources */,
 				A42DFC561EEFE971000BA8B4 /* View+MASAdditions.m in Sources */,
 				A42DFC581EEFE971000BA8B4 /* README.md in Sources */,
 				A455A6341EF0E5DA000E344D /* NSObject+MJProperty.m in Sources */,
-				A455A6391EF110BE000E344D /* LGYLabel.m in Sources */,
 				A455A62E1EF0E5DA000E344D /* MJProperty.m in Sources */,
 				A42DFC521EEFE971000BA8B4 /* MASViewAttribute.m in Sources */,
 				A42DFC611EEFEA1A000BA8B4 /* ViewController2.m in Sources */,

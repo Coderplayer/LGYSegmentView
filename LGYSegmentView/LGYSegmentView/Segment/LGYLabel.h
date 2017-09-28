@@ -14,4 +14,8 @@
 @property (nonatomic, assign) CGFloat enlageScale;
 @property (nonatomic, strong) UIColor* normalColor;
 @property (nonatomic, strong) UIColor* selectedColor;
+
+@property (nonatomic, assign, readonly) CGFloat titleWidth;
+@property (nonatomic, assign, readonly) CGFloat enlageTitleWidth;
+@property (nonatomic, assign,readonly) CGFloat titleOriX;
 @end
