@@ -16,8 +16,8 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "LGYSegmentView"
-  spec.version      = "1.0.0"
-  spec.summary      = "低耦合简单易用segment视图."
+  spec.version      = "1.0.1"
+  spec.summary      = "导航菜单栏."
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
@@ -25,6 +25,7 @@ Pod::Spec.new do |spec|
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   spec.description  = <<-DESC
+                        低耦合简单易用的导航菜单栏
                    DESC
 
   spec.homepage     = "https://github.com/Coderplayer/LGYSegmentView"
@@ -90,8 +91,8 @@ Pod::Spec.new do |spec|
   #  Not including the public_header_files will make all headers public.
   #
 
-  spec.source_files  = "SegmentView", "SegmentView/**/*.{h,m}"
-  spec.exclude_files = "Classes/Exclude"
+  spec.source_files  = "SegmentView"
+#spec.exclude_files = "Classes/Exclude"
 
   # spec.public_header_files = "Classes/**/*.h"
 
