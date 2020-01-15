@@ -23,13 +23,12 @@
 
 #pragma mark - LGYSegmentView 实现
 @interface LGYSegmentView ()
-@property (nonatomic, weak)     UIScrollView *itemsScrollView;
+@property (nonatomic, strong)     UIScrollView *itemsScrollView;
 @property (nonatomic, weak)     UIImageView *tracker;
 @property (nonatomic, strong)   NSArray *items;
 @property (nonatomic, strong)   NSMutableArray *itemViews;
-@property (nonatomic, copy)     NSArray *itemWidths;
+//@property (nonatomic, copy)     NSArray *itemWidths;
 @property (nonatomic, weak)     LGYSegmentItemView *selectedItemView;
-
 
 @property (nonatomic, assign) CGFloat normalR;
 @property (nonatomic, assign) CGFloat normalG;
@@ -88,9 +87,15 @@
 - (void)refreshItemsViews {
     for (NSString *title in self.items) {
         LGYSegmentItemView *itemView = [[LGYSegmentItemView alloc] initWithTitle:title];
+        [itemView addTarget:self action:@selector(itemViewWasTapped:)];
         [self.itemsScrollView addSubview:itemView];
         [self.itemViews addObject:itemView];
     }
+}
+
+- (void)setItemCanAcceptTouch:(BOOL)itemCanAcceptTouch {
+    _itemCanAcceptTouch = itemCanAcceptTouch;
+    self.itemsScrollView.userInteractionEnabled = itemCanAcceptTouch;
 }
 
 - (void)layoutSubviews {
@@ -103,24 +108,14 @@
         self.selectedItemIndex = 0; // 如果未设置初始选择标签则默认选中索引0
     }
     
-    LGYSegmentItemView *lastItemView = nil;
-    for (int i = 0; i < self.itemViews.count; i++) {
+    CGFloat tempContentWidth = (self.itemViews.count - 1) * self.itemSpacing;
+    for (NSInteger i = 0; i < self.itemViews.count; i++) {
         LGYSegmentItemView *itemView = [self.itemViews objectAtIndex:i];
         itemView.font = self.itemTitleFont;
         itemView.textColor = self.itemNormaldColor;
         CGFloat titleWidth = [itemView itemTitleWidth];
-        
-        
-        CGFloat x = 0;
-        if (lastItemView) {
-            x = CGRectGetMaxX(lastItemView.frame) +  self.itemSpacing;
-        }else {
-            x = self.contentLRSpacing;
-        }
-        itemView.frame = CGRectMake(x, 0, titleWidth, size.height - self.trackerHeight);
-        
+        tempContentWidth += titleWidth;
         [itemWidths addObject:@(titleWidth)];
-        [itemView addTarget:self action:@selector(itemViewWasTapped:)];
         
         if (self.itemSpacingCanAcceptHitTest) {
             CGFloat hitSpace = self.itemSpacing * 0.5;
@@ -128,16 +123,31 @@
         }else {
             itemView.hitTestEdgeInsets = UIEdgeInsetsZero;
         }
-        
-        lastItemView = itemView;
+    }
+//    self.itemWidths = [itemWidths copy];
+    
+    CGFloat trulyLRSpacing = self.contentLRSpacing;
+    if(self.contentAligmentType == LGYSegmentViewContentAligmentCenter) {
+        CGFloat delta = size.width - tempContentWidth;
+        if (delta > 0) {
+            trulyLRSpacing = delta * 0.5;
+        }
     }
     
-    self.itemWidths = [itemWidths copy];
+    LGYSegmentItemView *lastItemView = nil;
+    CGFloat x = trulyLRSpacing;
+    for (NSInteger i = 0; i < self.itemViews.count; i++) {
+        LGYSegmentItemView *itemView = [self.itemViews objectAtIndex:i];
+        CGFloat titleWidth = [[itemWidths objectAtIndex:i] floatValue];
+        itemView.frame = CGRectMake(x, 0, titleWidth, size.height - self.trackerHeight);
+        x += titleWidth +  self.itemSpacing;
+        lastItemView = itemView;
+    }
     
     self.tracker.frame = CGRectMake(0, size.height - self.trackerHeight, 0.1, self.trackerHeight);
     self.tracker.layer.cornerRadius = self.trackerHeight * 0.5;
     self.tracker.layer.masksToBounds = YES;
-    CGFloat contentWidth = CGRectGetMaxX(lastItemView.frame) + self.contentLRSpacing;
+    CGFloat contentWidth = CGRectGetMaxX(lastItemView.frame) + trulyLRSpacing;
     self.itemsScrollView.contentSize = CGSizeMake(contentWidth, 0);
     
     if (self.selectedItemIndex < self.itemViews.count) {
@@ -158,12 +168,8 @@
 #pragma mark - segment内部跳转控制
 /** 调整追踪器的位置 */
 - (void)resetTrackerFrameWithSelectedItemView:(LGYSegmentItemView *)selectedItemView {
-//    CGFloat trackerX = selectedItemView.frame.origin.x;
-//    CGFloat trackerY = self.itemsScrollView.frame.size.height - self.trackerHeight;
     CGFloat trackerW = selectedItemView.bounds.size.width;
     CGFloat trackerH = self.trackerHeight;
-//    self.tracker.frame = CGRectMake(trackerX, trackerY, trackerW, trackerH);
-    
     self.tracker.bounds = CGRectMake(0, 0, trackerW, trackerH);
     CGFloat centerY = self.itemsScrollView.bounds.size.height - self.trackerHeight * 0.5;
     self.tracker.center = CGPointMake(selectedItemView.center.x, centerY);
@@ -178,7 +184,7 @@
     
     CGPoint centerInSegmentView = itemView.center;
     CGFloat offSetX = centerInSegmentView.x - CGRectGetWidth(self.itemsScrollView.bounds) * 0.5;
-    CGFloat maxOffsetX = self.itemsScrollView.contentSize.width - self.itemsScrollView.frame.size.width;
+    CGFloat maxOffsetX = self.itemsScrollView.contentSize.width - CGRectGetWidth(self.itemsScrollView.bounds);
     if (offSetX <= 0 || maxOffsetX <= 0) {
         offSetX = 0;
     } else if (offSetX > maxOffsetX){
@@ -254,8 +260,6 @@
         previousItemView.textColor = toColor;
         nextItemView.textColor = fromColor;
     }else { // 正好滚动到某一个item位置
-//        CGRect newBounds = self.tracker.frame;
-//        CGPoint newCenter = self.tracker.center;
         newCenter.x = previousItemView.center.x;
         newFrame.size.width = previousItemView.frame.size.width;
         self.tracker.frame = newFrame;

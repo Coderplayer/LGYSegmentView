@@ -12,6 +12,7 @@
 @interface ViewController ()<UIScrollViewDelegate,LGYSegmentViewDelegate>
 @property (nonatomic, weak) LGYSegmentView *sv;
 @property (nonatomic, weak) UIScrollView *contentScrollView;
+@property (nonatomic, assign) BOOL activeDrag;
 @end
 
 @implementation ViewController
@@ -20,12 +21,14 @@
     [super viewDidLoad];
     
     CGSize size = self.view.bounds.size;
-    LGYSegmentView *sv = [LGYSegmentView segmentViewWithItems:@[@"BJ",@"NewYork",@"losAngeles",@"ShangHai",@"London",@"Berlin",@"paris"] delegate:self];
+        //    @[@"BJ",@"NewYork",@"losAngeles",@"ShangHai",@"London",@"Berlin",@"paris"]
+    LGYSegmentView *sv = [LGYSegmentView segmentViewWithItems:@[@"NewYork",@"London",@"paris"] delegate:self];
+    sv.contentAligmentType = LGYSegmentViewContentAligmentCenter;
     sv.frame = CGRectMake(0, 20, self.view.bounds.size.width, 44);
     sv.itemTitleFont = [UIFont fontWithName:@"PingFangSC-Medium" size:25];// [UIFont boldSystemFontOfSize:25];
     sv.trackerHeight = 4;
 //    sv.backgroundColor = [UIColor redColor];
-    sv.itemZoomScale = 1.2;
+    sv.itemZoomScale = 1.5;
     sv.trackerStyle = LGYSegmentTrackerAttachmentTitle;
     sv.itemSpacingCanAcceptHitTest = YES;
     [self.view addSubview:sv];
@@ -49,22 +52,41 @@
     
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-//    self.sv.itemZoomScale = 1.4;
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+//    _activeDrag = YES;
+    self.sv.itemCanAcceptTouch = NO;
+//    NSLog(@"+++++++++++");
 }
 
-//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-//
-//}
-//
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-//
-//}
-
-
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+        if (!scrollView.isDragging && !scrollView.isDecelerating) {
+    //        NSLog(@"----");
+            return;
+        }
+    //用户拖拽移动segment
+    CGFloat offsetX = scrollView.contentOffset.x;
+    CGFloat process = 1.0 * offsetX / scrollView.bounds.size.width;
+    self.sv.segmentRealTimeProcess = process;
+    NSLog(@"+++++++++++");
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+    self.sv.itemCanAcceptTouch = YES;
     if (!scrollView.isDragging && !scrollView.isDecelerating) {
+//        NSLog(@"----");
+        return;
+    }
+    //用户拖拽移动segment
+    CGFloat offsetX = scrollView.contentOffset.x;
+    CGFloat process = 1.0 * offsetX / scrollView.bounds.size.width;
+    self.sv.segmentRealTimeProcess = process;
+    
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    self.sv.itemCanAcceptTouch = YES;
+    if (!scrollView.isDragging && !scrollView.isDecelerating) {
+//        NSLog(@"----");
         return;
     }
     //用户拖拽移动segment
@@ -73,30 +95,6 @@
     self.sv.segmentRealTimeProcess = process;
 }
 
-- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
-//    CGFloat offsetX = scrollView.contentOffset.x;
-//    NSInteger index = offsetX / scrollView.bounds.size.width;
-//    self.sv.selectedItemIndex = index;
-    
-    if (scrollView.isDragging && !scrollView.isDecelerating) {
-        NSLog(@"----");
-    }
-    //用户拖拽移动segment
-    CGFloat offsetX = scrollView.contentOffset.x;
-    CGFloat process = 1.0 * offsetX / scrollView.bounds.size.width;
-    self.sv.segmentRealTimeProcess = process;
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-//    CGFloat offsetX = scrollView.contentOffset.x;
-//    CGFloat index = offsetX / scrollView.bounds.size.width;
-//    self.sv.selectedItemIndex = index;
-    
-    //用户拖拽移动segment
-    CGFloat offsetX = scrollView.contentOffset.x;
-    CGFloat process = 1.0 * offsetX / scrollView.bounds.size.width;
-    self.sv.segmentRealTimeProcess = process;
-}
 
 - (UIScrollView *)contentScrollView {
     if (!_contentScrollView) {
