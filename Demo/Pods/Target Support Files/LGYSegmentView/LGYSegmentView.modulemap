@@ -1,0 +1,6 @@
+framework module LGYSegmentView {
+  umbrella header "LGYSegmentView-umbrella.h"
+
+  export *
+  module * { export * }
+}

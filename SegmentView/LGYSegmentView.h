@@ -46,6 +46,8 @@ typedef NS_ENUM(NSUInteger, LGYSegmentViewContentAligment) {
 @property (nonatomic, assign)   CGFloat itemSpacingCanAcceptHitTest;
 /** title选中缩放值，以1为基准 */
 @property (nonatomic, assign)   CGFloat itemZoomScale;
+/// 单个标题的最大宽度 默认为0:item的宽度不限制，不为0则item的最大宽度不超过该值
+@property (nonatomic, assign)   CGFloat itemMaxWidth;
 /// title font
 @property (nonatomic, strong)   UIFont *itemTitleFont;
 @property (nonatomic, strong)   UIColor *itemNormaldColor;

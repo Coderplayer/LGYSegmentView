@@ -46,6 +46,7 @@
 #pragma mark - 创建segment
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        _itemMaxWidth = 0;
         _itemTitleFont = [UIFont systemFontOfSize:16];
         self.itemNormaldColor = [UIColor blackColor];
         self.itemSelectedColor = [UIColor redColor];
@@ -114,6 +115,9 @@
         itemView.font = self.itemTitleFont;
         itemView.textColor = self.itemNormaldColor;
         CGFloat titleWidth = [itemView itemTitleWidth];
+        if (_itemMaxWidth > 0 && titleWidth > _itemMaxWidth) {
+            titleWidth = _itemMaxWidth;
+        }
         tempContentWidth += titleWidth;
         [itemWidths addObject:@(titleWidth)];
         

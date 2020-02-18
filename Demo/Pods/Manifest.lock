@@ -1,0 +1,16 @@
+PODS:
+  - LGYSegmentView (1.1.0)
+
+DEPENDENCIES:
+  - LGYSegmentView (from `../LGYSegmentView.podspec`)
+
+EXTERNAL SOURCES:
+  LGYSegmentView:
+    :path: "../LGYSegmentView.podspec"
+
+SPEC CHECKSUMS:
+  LGYSegmentView: 89b9a36c948503c37b57fb6223d414da558f6ffe
+
+PODFILE CHECKSUM: c4247ac2989d15b7e8a9c06888136041f418a823
+
+COCOAPODS: 1.7.4
