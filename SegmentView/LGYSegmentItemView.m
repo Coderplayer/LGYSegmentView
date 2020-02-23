@@ -9,48 +9,46 @@
 #import "LGYSegmentItemView.h"
 
 @interface LGYSegmentItemView ()
-@property (nonatomic, weak) UITapGestureRecognizer *tap;
+/// titleLabel
+@property (nonatomic, strong) UILabel *titleLabel;
 @end
 
 @implementation LGYSegmentItemView
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        self.userInteractionEnabled = YES;
-        self.textAlignment = NSTextAlignmentCenter;
-        [self tap];
+        self.titleLabel = [[UILabel alloc] init];
+        self.titleLabel.textAlignment = NSTextAlignmentCenter;
+        [self addSubview:self.titleLabel];
     }
     return self;
 }
 
 - (instancetype)initWithTitle:(NSString *)title {
     if (self = [super init]) {
-        self.text = title;
+        self.titleLabel.text = title;
     }
     return self;
 }
 
-- (UITapGestureRecognizer *)tap {
-    if (!_tap) {
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] init];
-        [self addGestureRecognizer:tap];
-        _tap = tap;
-    }
-    return _tap;
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.titleLabel.frame = self.bounds;
+}
+- (void)setTextColor:(UIColor *)textColor {
+    self.titleLabel.textColor = textColor;
+}
+
+- (void)setFont:(UIFont *)font {
+    self.titleLabel.font = font;
+}
+
+- (NSString *)text {
+    return self.titleLabel.text;
 }
 
 - (void)addTarget:(id)target action:(SEL)action {
-    if (target && action) {
-        [self.tap addTarget:target action:action];
-    }
+    [self addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
 }
-
-- (CGFloat)itemTitleWidth {
-    return [self.text boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)
-                                   options:NSStringDrawingUsesLineFragmentOrigin
-                                attributes:@{NSFontAttributeName : self.font}
-                                   context:nil].size.width + 1;
-}
-
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
     if (UIEdgeInsetsEqualToEdgeInsets(self.hitTestEdgeInsets, UIEdgeInsetsZero) ||
@@ -67,4 +65,6 @@
     BOOL ins = CGRectContainsPoint(hitFrame, point);
     return ins;
 }
+
+
 @end

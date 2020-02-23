@@ -11,8 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, LGYSegmentTrackerStyle) {
-    LGYSegmentTrackerEqualTitleWith,
-    LGYSegmentTrackerAttachmentTitle,
+    LGYSegmentTrackerTitleScaleWidth, //底部指示器的宽度等比与title的宽度
+    LGYSegmentTrackerTitleAttachmentWidth
 };
 
 typedef NS_ENUM(NSUInteger, LGYSegmentViewContentAligment) {
@@ -33,34 +33,45 @@ typedef NS_ENUM(NSUInteger, LGYSegmentViewContentAligment) {
 /// 菜单栏子标签的对齐方式
 @property (nonatomic, assign)   LGYSegmentViewContentAligment contentAligmentType;
 /// 当外界的scrollView,正在滚动时，标签不应该接收点击事件
-@property (nonatomic, assign)   BOOL itemCanAcceptTouch;
-/** 指示器高度 */
+@property (nonatomic, assign, getter=canAcceptTapAction)   BOOL acceptTapAction;
+/// 指示器高度
 @property (nonatomic, assign)   CGFloat trackerHeight;
-/** 指示器颜色 */
+/// 指示器颜色
 @property (nonatomic, strong)   UIColor *trackerColor;
-/** 最左边和最右边的segmentItem距离segmentView的边距 */
+/// 菜单指示器的宽度和被选中item宽度的比例系数，默认等于1，即相等
+@property (nonatomic, assign)   CGFloat trackerTitleWidthScale;
+/// 最左边和最右边的segmentItem距离segmentView的边距
 @property (nonatomic, assign)   CGFloat contentLRSpacing;
-/** item之间的水平间距 */
+/// item之间的水平间距
 @property (nonatomic, assign)   CGFloat itemSpacing;
-/** item之间的部分也可以响应点击事件 */
+/// item间距部分是否可以以响应点击事件，默认响应
 @property (nonatomic, assign)   CGFloat itemSpacingCanAcceptHitTest;
-/** title选中缩放值，以1为基准 */
+/// title选中缩放值，以1为基准
 @property (nonatomic, assign)   CGFloat itemZoomScale;
-/// 单个标题的最大宽度 默认为0:item的宽度不限制，不为0则item的最大宽度不超过该值
+/// 单个标题的最大宽度 默认为CGFLOAT_MAX:item的宽度不限制，否则则item的最大宽度不超过该值
 @property (nonatomic, assign)   CGFloat itemMaxWidth;
-/// title font
-@property (nonatomic, strong)   UIFont *itemTitleFont;
-@property (nonatomic, strong)   UIColor *itemNormaldColor;
-@property (nonatomic, strong)   UIColor *itemSelectedColor;
-/** 设置segment实时进度，此属性只在用户主动滑动情况下设置 */
+/// title未选中时的font
+@property (nonatomic, strong)   UIFont *itemNormalFont;
+/// title选中时的font
+@property (nonatomic, strong)   UIFont *itemSelectFont;
+/// title未选中时的颜色
+@property (nonatomic, strong)   UIColor *itemNormalColor;
+/// title选中时的颜色
+@property (nonatomic, strong)   UIColor *itemSelectColor;
+/// 设置segment实时进度，此属性只在用户主动滑动情况下设置
 @property (nonatomic, assign)   CGFloat segmentRealTimeProcess;
-/** 设置选中的item,设置次属性会调用代理方法 */
+/// 设置选中的item,设置次属性会调用代理方法
 @property (nonatomic) NSInteger selectedItemIndex;
-
+/// 底部指示器tracker的样式
 @property (nonatomic, assign)   LGYSegmentTrackerStyle trackerStyle;
-+ (instancetype)segmentViewWithItems:(NSArray<NSString *> *)items
-                            delegate:(nullable id<LGYSegmentViewDelegate>)delegate;
+/// 导航菜单上所有标签视图
+@property (nonatomic, strong, readonly) NSMutableArray *itemViews;
+/// 创建导航菜单的推荐方法
++ (instancetype)segmentViewWithItems:(NSArray<NSString *> *)items delegate:(nullable id<LGYSegmentViewDelegate>)delegate;
+/// 更新导航菜单上的标签
 - (void)updateItems:(NSArray<NSString *> *)items;
+/// 点击标题视图后更新itemView
+- (void)refreshItemViews;
 @end
 
 NS_ASSUME_NONNULL_END

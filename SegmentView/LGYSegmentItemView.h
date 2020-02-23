@@ -9,13 +9,19 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
+@interface LGYSegmentItemView : UIControl
+/// titleLabel的文字颜色
+@property (nonatomic, strong) UIColor *textColor;
+/// titleLabel的文字大小
+@property (nonatomic, assign) UIFont  *font;
+/// 展示的文字
+@property (nonatomic, copy, readonly) NSString *text;
 
-@interface LGYSegmentItemView : UILabel
 @property (nonatomic, assign) UIEdgeInsets hitTestEdgeInsets;
-@property (nonatomic, weak, readonly) UITapGestureRecognizer *tap;
+
 - (instancetype)initWithTitle:(NSString *)title;
 - (void)addTarget:(id)target action:(SEL)action;
-- (CGFloat)itemTitleWidth;
+
 @end
 
 NS_ASSUME_NONNULL_END

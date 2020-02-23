@@ -12,6 +12,7 @@
 
 #import "LGYSegmentItemView.h"
 #import "LGYSegmentView.h"
+#import "NSString+LGYSized.h"
 
 FOUNDATION_EXPORT double LGYSegmentViewVersionNumber;
 FOUNDATION_EXPORT const unsigned char LGYSegmentViewVersionString[];

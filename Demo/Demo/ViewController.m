@@ -7,12 +7,21 @@
 //
 
 #import "ViewController.h"
-#import <LGYSegmentView.h>
 #import "SubViewController.h"
+#import <NSString+LGYSized.h>
+#import <LGYSegmentView.h>
+
+static inline float kh_status_bar_height() {
+    if (@available(iOS 13.0, *)) {
+        return [UIApplication sharedApplication].delegate.window.windowScene.statusBarManager.statusBarFrame.size.height;
+    }else {
+        return [UIApplication sharedApplication].statusBarFrame.size.height;
+    }
+}
+
 @interface ViewController ()<UIScrollViewDelegate,LGYSegmentViewDelegate>
 @property (nonatomic, weak) LGYSegmentView *sv;
 @property (nonatomic, weak) UIScrollView *contentScrollView;
-@property (nonatomic, assign) BOOL activeDrag;
 @end
 
 @implementation ViewController
@@ -22,20 +31,24 @@
     self.view.backgroundColor = [UIColor whiteColor];
     CGSize size = self.view.bounds.size;
         //    @[@"BJ",@"NewYork",@"losAngeles",@"ShangHai",@"London",@"Berlin",@"paris"]
-    LGYSegmentView *sv = [LGYSegmentView segmentViewWithItems:@[@"NewYorkCity",@"London",@"paris"] delegate:self];
+    LGYSegmentView *sv = [LGYSegmentView segmentViewWithItems:@[@"上海中心",@"帝国大厦",@"东京铁塔",@"埃菲尔铁塔",@"伦敦眼",@"迪拜塔"] delegate:self];//,
     sv.contentAligmentType = LGYSegmentViewContentAligmentCenter;
-    sv.itemMaxWidth = 120;
-    sv.frame = CGRectMake(0, 20, self.view.bounds.size.width, 44);
-    sv.itemTitleFont = [UIFont fontWithName:@"PingFangSC-Medium" size:25];// [UIFont boldSystemFontOfSize:25];
+//    sv.itemMaxWidth = 90;
+    CGFloat statusBarHeight = kh_status_bar_height();
+    sv.frame = CGRectMake(0, statusBarHeight, self.view.bounds.size.width, 44);
+    sv.itemSelectFont = [UIFont fontWithName:@"PingFangSC-Medium" size:15];
+    sv.itemNormalFont =  [UIFont fontWithName:@"PingFangSC-Medium" size:15];[UIFont systemFontOfSize:15];
     sv.trackerHeight = 4;
-//    sv.backgroundColor = [UIColor redColor];
-    sv.itemZoomScale = 1.5;
-    sv.trackerStyle = LGYSegmentTrackerAttachmentTitle;
+    sv.trackerTitleWidthScale = 0.5;
+    sv.itemZoomScale = 1.2;
+    sv.contentLRSpacing = 20;
+    sv.trackerStyle = LGYSegmentTrackerTitleAttachmentWidth;
     sv.itemSpacingCanAcceptHitTest = YES;
     [self.view addSubview:sv];
     self.sv = sv;
     
-    self.contentScrollView.frame = CGRectMake(0, 64, size.width, size.height - 64);
+    
+    self.contentScrollView.frame = CGRectMake(0, CGRectGetMaxY(sv.frame), size.width, size.height - CGRectGetMaxY(sv.frame));
     self.contentScrollView.contentSize = CGSizeMake(size.width * sv.items.count, 0);
     
     
@@ -44,69 +57,52 @@
         subVC.title = [sv.items objectAtIndex:i];
         [self addChildViewController:subVC];
     }
+
+    self.sv.selectedItemIndex = 0;
+
     
-//    self.sv.selectedItemIndex = 0;
-    
-    if (sv.selectedItemIndex < self.childViewControllers.count) {
-        [self.contentScrollView setContentOffset:CGPointMake(size.width * 3, 0) animated:NO];
-    }
-    
+    UILabel *label = [[UILabel alloc] init];
+    label.backgroundColor = [UIColor redColor];
+    label.textColor = [UIColor whiteColor];
+    label.font = sv.itemNormalFont;//[UIFont fontWithName:@"PingFangSC-Medium" size:21];
+    NSString *text = @"temp中国人民国家";
+    label.text = text;
+    [self.view addSubview:label];
+    CGFloat width = [text lgy_widthWithFont:label.font];
+    CGFloat w1 = [text lgy_widthWithFont:sv.itemSelectFont];
+    label.frame = CGRectMake(0, 100, 80, 30);
+    label.transform = CGAffineTransformMakeScale(1.25, 0);
+//    NSLog(@"%@",NSStringFromCGRect(label.frame));//(origin = (x = -10, y = 115), size = (width = 100, height = 0))
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-//    _activeDrag = YES;
-    self.sv.itemCanAcceptTouch = NO;
-//    NSLog(@"+++++++++++");
+    self.sv.userInteractionEnabled = NO;
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    self.sv.userInteractionEnabled = YES;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-        if (!scrollView.isDragging && !scrollView.isDecelerating) {
-    //        NSLog(@"----");
-            return;
-        }
-    //用户拖拽移动segment
-    CGFloat offsetX = scrollView.contentOffset.x;
-    CGFloat process = 1.0 * offsetX / scrollView.bounds.size.width;
-    self.sv.segmentRealTimeProcess = process;
-    NSLog(@"+++++++++++");
-}
-
-- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
-    self.sv.itemCanAcceptTouch = YES;
     if (!scrollView.isDragging && !scrollView.isDecelerating) {
-//        NSLog(@"----");
+        // 该条件是判断是直接设置偏移量出发而非手拖动scorllView 勿删
+//        NSLog(@"+++++++++++");
         return;
     }
+//    NSLog(@"----------");
     //用户拖拽移动segment
     CGFloat offsetX = scrollView.contentOffset.x;
     CGFloat process = 1.0 * offsetX / scrollView.bounds.size.width;
     self.sv.segmentRealTimeProcess = process;
-    
 }
 
+// 手拖动
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    self.sv.itemCanAcceptTouch = YES;
-    if (!scrollView.isDragging && !scrollView.isDecelerating) {
-//        NSLog(@"----");
-        return;
-    }
+//    NSLog(@"scrollViewDidEndDecelerating ------- ");
     //用户拖拽移动segment
     CGFloat offsetX = scrollView.contentOffset.x;
     CGFloat process = 1.0 * offsetX / scrollView.bounds.size.width;
     self.sv.segmentRealTimeProcess = process;
-}
-
-
-- (UIScrollView *)contentScrollView {
-    if (!_contentScrollView) {
-        UIScrollView *contentScrollView = [[UIScrollView alloc] init];
-        contentScrollView.delegate = self;
-        contentScrollView.pagingEnabled = self;
-        contentScrollView.backgroundColor = [UIColor orangeColor];
-        [self.view addSubview:contentScrollView];
-        _contentScrollView = contentScrollView;
-    }
-    return _contentScrollView;
 }
 
 
@@ -128,5 +124,18 @@
     
     targetViewController.view.frame = CGRectMake(svSize.width * index, 0, svSize.width, svSize.height);
     [self.contentScrollView addSubview:targetViewController.view];
+}
+
+
+- (UIScrollView *)contentScrollView {
+    if (!_contentScrollView) {
+        UIScrollView *contentScrollView = [[UIScrollView alloc] init];
+        contentScrollView.delegate = self;
+        contentScrollView.pagingEnabled = self;
+        contentScrollView.backgroundColor = [UIColor orangeColor];
+        [self.view addSubview:contentScrollView];
+        _contentScrollView = contentScrollView;
+    }
+    return _contentScrollView;
 }
 @end

@@ -1,5 +1,5 @@
 PODS:
-  - LGYSegmentView (1.1.0)
+  - LGYSegmentView (1.1.1)
 
 DEPENDENCIES:
   - LGYSegmentView (from `../LGYSegmentView.podspec`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../LGYSegmentView.podspec"
 
 SPEC CHECKSUMS:
-  LGYSegmentView: 89b9a36c948503c37b57fb6223d414da558f6ffe
+  LGYSegmentView: 8faecf9ea5d5630ffede7051c38b7a37371cfced
 
 PODFILE CHECKSUM: c4247ac2989d15b7e8a9c06888136041f418a823
 
