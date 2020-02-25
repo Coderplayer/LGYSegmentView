@@ -3,5 +3,6 @@ platform :ios, '8.0'
 
 target 'Demo' do
   use_frameworks!
+  # 注意这种方式的导入无法在其内部断点调试
   pod 'LGYSegmentView', :path => '../LGYSegmentView.podspec'
 end

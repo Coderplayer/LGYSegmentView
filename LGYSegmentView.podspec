@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |spec|
   spec.name         = "LGYSegmentView"
-  spec.version      = "1.2.0"
+  spec.version      = "1.2.1"
   spec.summary      = "导航菜单栏."
 
   spec.description  = <<-DESC

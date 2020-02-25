@@ -33,17 +33,19 @@ static inline float kh_status_bar_height() {
         //    @[@"BJ",@"NewYork",@"losAngeles",@"ShangHai",@"London",@"Berlin",@"paris"]
     LGYSegmentView *sv = [LGYSegmentView segmentViewWithItems:@[@"上海中心",@"帝国大厦",@"东京铁塔",@"埃菲尔铁塔",@"伦敦眼",@"迪拜塔"] delegate:self];//,
     sv.contentAligmentType = LGYSegmentViewContentAligmentCenter;
+    sv.tracker.layer.cornerRadius = 0;
 //    sv.itemMaxWidth = 90;
     CGFloat statusBarHeight = kh_status_bar_height();
     sv.frame = CGRectMake(0, statusBarHeight, self.view.bounds.size.width, 44);
-    sv.itemSelectFont = [UIFont fontWithName:@"PingFangSC-Medium" size:15];
-    sv.itemNormalFont =  [UIFont fontWithName:@"PingFangSC-Medium" size:15];[UIFont systemFontOfSize:15];
+//    sv.itemSelectFont = [UIFont fontWithName:@"PingFangSC-Medium" size:15];
+    sv.itemNormalFont =  [UIFont fontWithName:@"PingFangSC-Medium" size:15];
     sv.trackerHeight = 4;
     sv.trackerTitleWidthScale = 0.5;
     sv.itemZoomScale = 1.2;
     sv.contentLRSpacing = 20;
     sv.trackerStyle = LGYSegmentTrackerTitleAttachmentWidth;
     sv.itemSpacingCanAcceptHitTest = YES;
+//    sv.trackerCornerRadius = sv.trackerHeight * 0.5;
     [self.view addSubview:sv];
     self.sv = sv;
     
@@ -68,11 +70,15 @@ static inline float kh_status_bar_height() {
     NSString *text = @"temp中国人民国家";
     label.text = text;
     [self.view addSubview:label];
-    CGFloat width = [text lgy_widthWithFont:label.font];
-    CGFloat w1 = [text lgy_widthWithFont:sv.itemSelectFont];
+//    CGFloat width = [text lgy_widthWithFont:label.font];
+//    CGFloat w1 = [text lgy_widthWithFont:sv.itemSelectFont];
     label.frame = CGRectMake(0, 100, 80, 30);
     label.transform = CGAffineTransformMakeScale(1.25, 0);
 //    NSLog(@"%@",NSStringFromCGRect(label.frame));//(origin = (x = -10, y = 115), size = (width = 100, height = 0))
+    
+    
+    NSArray *arr;
+    NSLog(@"---t---- %ld",arr.count);
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {

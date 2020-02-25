@@ -14,6 +14,10 @@
 }
 
 - (CGFloat)lgy_widthWithFont:(UIFont *)font maxWith:(CGFloat)maxWith {
+    if (!font) {
+        return 0;
+    }
+    // 以下代码当 font为nil时，会崩溃
     CGFloat width = [self boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)
                                        options:NSStringDrawingUsesLineFragmentOrigin
                                     attributes:@{NSFontAttributeName : font}

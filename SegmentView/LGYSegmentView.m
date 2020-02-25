@@ -24,11 +24,11 @@
 #pragma mark - LGYSegmentView 实现
 @interface LGYSegmentView ()
 /// 存放所有标签的父视图ScrollView
-@property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) UIScrollView     *scrollView;
 /// 底部指示器视图
-@property (nonatomic, strong) UIImageView *tracker;
-@property (nonatomic, strong) NSArray *items;
-@property (nonatomic, strong) NSMutableArray *itemViews;
+@property (nonatomic, strong) UIImageView      *tracker;
+@property (nonatomic, strong) NSArray          *items;
+@property (nonatomic, strong) NSMutableArray   *itemViews;
 
 @property (nonatomic, assign) CGFloat normalR;
 @property (nonatomic, assign) CGFloat normalG;
@@ -47,7 +47,6 @@
     if (self = [super initWithFrame:frame]) {
         _itemMaxWidth = CGFLOAT_MAX;
         _itemNormalFont = [UIFont systemFontOfSize:16];
-        _itemSelectFont = [UIFont systemFontOfSize:16];
         _itemSpacing = 30;
         _trackerHeight = 3.0;
         _itemZoomScale = 1.0;
@@ -146,8 +145,7 @@
     }
     [self refreshItemViews];
     self.tracker.frame = CGRectMake(0, size.height - self.trackerHeight, 0.1, self.trackerHeight);
-    self.tracker.layer.cornerRadius = self.trackerHeight * 0.5;
-    self.tracker.layer.masksToBounds = YES;
+    
     CGFloat contentWidth = CGRectGetMaxX(lastItemView.frame) + trulyLRSpacing;
     self.scrollView.contentSize = CGSizeMake(contentWidth, 0);
     
@@ -360,7 +358,7 @@
         LGYSegmentItemView *itemView = [self.itemViews objectAtIndex:index];
         if (index == _selectedItemIndex) {
             itemView.textColor = _itemSelectColor;
-            itemView.font = _itemSelectFont;
+            itemView.font = _itemSelectFont ? _itemSelectFont : _itemNormalFont;
         }else {
             itemView.textColor = _itemNormalColor;
             itemView.font = _itemNormalFont;
@@ -383,6 +381,11 @@
 - (void)setTrackerHeight:(CGFloat)trackerHeight {
     _trackerHeight = trackerHeight;
     [self setNeedsLayout];
+}
+
+- (void)setTrackerCornerRadius:(CGFloat)trackerCornerRadius {
+    _trackerCornerRadius = trackerCornerRadius;
+    self.tracker.layer.cornerRadius = trackerCornerRadius;
 }
 
 - (void)setTrackerColor:(UIColor *)trackerColor {
@@ -443,7 +446,7 @@
         LGYSegmentItemView *selectedTitleView = [self.itemViews objectAtIndex:selectedItemIndex];
         [self itemViewWasTapped:selectedTitleView];
     }else {
-        NSAssert(NO, @"selectedItemIndex超过了items的总个数“%ld”",self.items.count);
+        NSAssert(NO, @"selectedItemIndex超过了items的总个数“%lu”",self.itemViews.count);
     }
 }
 
@@ -473,6 +476,7 @@
 - (UIImageView *)tracker {
     if (!_tracker) {
         UIImageView *tracker = [[UIImageView alloc] init];
+        tracker.layer.masksToBounds = YES;
         [self.scrollView addSubview:tracker];
         _tracker = tracker;
     }

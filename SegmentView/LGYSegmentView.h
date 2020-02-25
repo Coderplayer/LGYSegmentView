@@ -34,8 +34,12 @@ typedef NS_ENUM(NSUInteger, LGYSegmentViewContentAligment) {
 @property (nonatomic, assign)   LGYSegmentViewContentAligment contentAligmentType;
 /// 当外界的scrollView,正在滚动时，标签不应该接收点击事件
 @property (nonatomic, assign, getter=canAcceptTapAction)   BOOL acceptTapAction;
-/// 指示器高度
+/// 底部指示器视图, 可以设置一张拉伸的定制图片
+@property (nonatomic, strong, readonly) UIImageView *tracker;
+/// 指示器高度,默认高度3.0pt,
 @property (nonatomic, assign)   CGFloat trackerHeight;
+/// tracker圆角大小,默认为0
+@property (nonatomic, assign)   CGFloat trackerCornerRadius;
 /// 指示器颜色
 @property (nonatomic, strong)   UIColor *trackerColor;
 /// 菜单指示器的宽度和被选中item宽度的比例系数，默认等于1，即相等
@@ -50,10 +54,10 @@ typedef NS_ENUM(NSUInteger, LGYSegmentViewContentAligment) {
 @property (nonatomic, assign)   CGFloat itemZoomScale;
 /// 单个标题的最大宽度 默认为CGFLOAT_MAX:item的宽度不限制，否则则item的最大宽度不超过该值
 @property (nonatomic, assign)   CGFloat itemMaxWidth;
-/// title未选中时的font
-@property (nonatomic, strong)   UIFont *itemNormalFont;
-/// title选中时的font
-@property (nonatomic, strong)   UIFont *itemSelectFont;
+/// title未选中时的font，该属性的值不能设置为nil
+@property (nonatomic, strong, nonnull)   UIFont *itemNormalFont;
+/// title选中时的font<注意当itemSelectFont值为nil时，title选中和未选中时值都将会是itemNormalFont>
+@property (nonatomic, strong, nullable)  UIFont *itemSelectFont;
 /// title未选中时的颜色
 @property (nonatomic, strong)   UIColor *itemNormalColor;
 /// title选中时的颜色
